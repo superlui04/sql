@@ -1,0 +1,27 @@
+#mock exam                                                                                
+SELECT users.dateType,users.name, users.eventType,like.eventType                        
+FROM users
+JOIN likes 
+    ON users.id = likes.user_id
+    AND users.dateTime = likes.dateTime  
+    
+    
+  #revise to include only the date and transaction   
+SELECT users.dateType,users.name                       
+FROM users
+JOIN likes 
+ON users.id = likes.user_id
+AND users.dateTime = likes.dateTime  
+    
+    
+    
+  #2 Using the tables above, write a SQL query to find the top 5 selling products (in terms of total units sold) by region in Q4 of 2017. 
+  #Include both the distributor id as well as the name of the product in your results.  
+  
+  SELECT *
+   FROM(  SELECT product_name, order.product id,sum(orders.no_units*orders.price) as 
+   row_number() over (partition by region order by count (*) DESC)   AS region_rank
+  from product
+  GROUP BY product,region,) rank
+  where region_rank <= 2; 
+  AND order.date between '10-01-2017' and  12-31-2017' 
